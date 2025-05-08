@@ -13,11 +13,24 @@ import {
 } from "@/components/ui/accordion";
 import { useSearchParams } from "react-router-dom";
 
+// Define the PriceRange type
+type PriceRange = {
+  min: number;
+  max: number;
+};
+
 interface ProductFiltersProps {
   categories: string[];
   brands: string[];
   minPrice: number;
   maxPrice: number;
+  selectedCategory?: string;
+  selectedBrands: string[];
+  setSelectedBrands: (brands: string[]) => void;
+  selectedRating: number | null;
+  setSelectedRating: (rating: number | null) => void;
+  priceRange: PriceRange;
+  setPriceRange: (range: PriceRange) => void;
   onClose?: () => void; // For mobile
   isMobile?: boolean;
 }
@@ -27,17 +40,17 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
   brands,
   minPrice,
   maxPrice,
+  selectedCategory = "all",
+  selectedBrands,
+  setSelectedBrands,
+  selectedRating,
+  setSelectedRating,
+  priceRange,
+  setPriceRange,
   onClose,
   isMobile = false,
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [priceRange, setPriceRange] = useState<[number, number]>([
-    Number(searchParams.get("minPrice")) || minPrice,
-    Number(searchParams.get("maxPrice")) || maxPrice,
-  ]);
-  const selectedCategory = searchParams.get("category") || "all";
-  const selectedBrand = searchParams.get("brand") || "all";
-  const minRating = Number(searchParams.get("rating")) || 0;
 
   const handleCategoryChange = (category: string) => {
     searchParams.set("category", category);
@@ -46,35 +59,37 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
   };
 
   const handleBrandChange = (brand: string) => {
-    searchParams.set("brand", brand);
-    searchParams.delete("page");
-    setSearchParams(searchParams);
+    const newSelectedBrands = selectedBrands.includes(brand)
+      ? selectedBrands.filter(b => b !== brand)
+      : [...selectedBrands, brand];
+    
+    setSelectedBrands(newSelectedBrands);
   };
 
   const handlePriceChange = (values: number[]) => {
-    setPriceRange([values[0], values[1]]);
+    setPriceRange({ min: values[0], max: values[1] });
   };
 
   const handlePriceApply = () => {
-    searchParams.set("minPrice", priceRange[0].toString());
-    searchParams.set("maxPrice", priceRange[1].toString());
+    searchParams.set("minPrice", priceRange.min.toString());
+    searchParams.set("maxPrice", priceRange.max.toString());
     searchParams.delete("page");
     setSearchParams(searchParams);
   };
 
   const handleRatingChange = (rating: number) => {
-    if (rating === minRating) {
-      searchParams.delete("rating");
+    if (selectedRating === rating) {
+      setSelectedRating(null);
     } else {
-      searchParams.set("rating", rating.toString());
+      setSelectedRating(rating);
     }
-    searchParams.delete("page");
-    setSearchParams(searchParams);
   };
 
   const handleClearAll = () => {
     setSearchParams(new URLSearchParams());
-    setPriceRange([minPrice, maxPrice]);
+    setPriceRange({ min: minPrice, max: maxPrice });
+    setSelectedBrands([]);
+    setSelectedRating(null);
     if (onClose) onClose();
   };
 
@@ -163,13 +178,13 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
                 min={minPrice}
                 max={maxPrice}
                 step={1}
-                value={[priceRange[0], priceRange[1]]}
+                value={[priceRange.min, priceRange.max]}
                 onValueChange={handlePriceChange}
                 className="py-4"
               />
               <div className="flex items-center justify-between">
-                <span className="text-sm">${priceRange[0]}</span>
-                <span className="text-sm">${priceRange[1]}</span>
+                <span className="text-sm">${priceRange.min}</span>
+                <span className="text-sm">${priceRange.max}</span>
               </div>
               <Button 
                 onClick={handlePriceApply} 
@@ -192,7 +207,7 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
                 <div key={rating} className="flex items-center">
                   <Checkbox 
                     id={`rating-${rating}`} 
-                    checked={minRating === rating} 
+                    checked={selectedRating === rating} 
                     onCheckedChange={() => handleRatingChange(rating)}
                   />
                   <Label htmlFor={`rating-${rating}`} className="ml-2 flex items-center cursor-pointer">
@@ -209,7 +224,7 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
               <div className="flex items-center">
                 <Checkbox 
                   id={`rating-0`} 
-                  checked={minRating === 0} 
+                  checked={selectedRating === null} 
                   onCheckedChange={() => handleRatingChange(0)}
                 />
                 <Label htmlFor={`rating-0`} className="ml-2 cursor-pointer">
@@ -228,8 +243,8 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
               <div className="flex items-center">
                 <Checkbox 
                   id="all-brands" 
-                  checked={selectedBrand === "all" || !selectedBrand} 
-                  onCheckedChange={() => handleBrandChange("all")}
+                  checked={selectedBrands.length === 0} 
+                  onCheckedChange={() => setSelectedBrands([])}
                 />
                 <Label htmlFor="all-brands" className="ml-2 cursor-pointer">
                   All Brands
@@ -239,7 +254,7 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
                 <div key={brand} className="flex items-center">
                   <Checkbox 
                     id={`brand-${brand}`} 
-                    checked={selectedBrand === brand} 
+                    checked={selectedBrands.includes(brand)} 
                     onCheckedChange={() => handleBrandChange(brand)}
                   />
                   <Label htmlFor={`brand-${brand}`} className="ml-2 cursor-pointer">

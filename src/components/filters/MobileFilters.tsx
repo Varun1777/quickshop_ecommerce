@@ -5,12 +5,25 @@ import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
 import ProductFilters from "./ProductFilters";
 
+// Define the PriceRange type
+type PriceRange = {
+  min: number;
+  max: number;
+};
+
 interface MobileFiltersProps {
   categories: string[];
   brands: string[];
   minPrice: number;
   maxPrice: number;
   filtersApplied: number;
+  selectedCategory?: string;
+  selectedBrands?: string[];
+  setSelectedBrands?: (brands: string[]) => void;
+  selectedRating?: number | null;
+  setSelectedRating?: (rating: number | null) => void;
+  priceRange?: PriceRange;
+  setPriceRange?: (range: PriceRange) => void;
 }
 
 const MobileFilters: React.FC<MobileFiltersProps> = ({
@@ -19,6 +32,13 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
   minPrice,
   maxPrice,
   filtersApplied,
+  selectedCategory = "all",
+  selectedBrands = [],
+  setSelectedBrands = () => {},
+  selectedRating = null,
+  setSelectedRating = () => {},
+  priceRange = { min: minPrice, max: maxPrice },
+  setPriceRange = () => {},
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -41,6 +61,13 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
           brands={brands}
           minPrice={minPrice}
           maxPrice={maxPrice}
+          selectedCategory={selectedCategory}
+          selectedBrands={selectedBrands}
+          setSelectedBrands={setSelectedBrands}
+          selectedRating={selectedRating}
+          setSelectedRating={setSelectedRating}
+          priceRange={priceRange}
+          setPriceRange={setPriceRange}
           onClose={() => setOpen(false)}
           isMobile={true}
         />

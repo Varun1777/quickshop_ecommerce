@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getProducts, getCategories, Product, Category } from "../services/api";
@@ -39,7 +40,10 @@ const ProductListingPage: React.FC = () => {
     staleTime: 1000 * 60 * 60, // Cache categories for 1 hour
     refetchOnWindowFocus: false,
   });
-
+  
+  // Get all unique brands from products for filtering
+  const [availableBrands, setAvailableBrands] = useState<string[]>([]);
+  
   // Fetch products based on filters and sorting
   useEffect(() => {
     const fetchProducts = async () => {
@@ -57,6 +61,10 @@ const ProductListingPage: React.FC = () => {
           sortBy,
           order,
         });
+        
+        // Extract unique brands from products for filters
+        const brands = Array.from(new Set(data.products.map(product => product.brand)));
+        setAvailableBrands(brands);
         
         // Apply client-side filters (since DummyJSON API doesn't support these filters)
         let filteredProducts = [...data.products];
@@ -93,6 +101,9 @@ const ProductListingPage: React.FC = () => {
     fetchProducts();
   }, [categoryParam, searchQuery, sortBy, order, page, priceRange, selectedBrands, selectedRating]);
   
+  // Get category names for display
+  const categoryNames = categories.map(cat => cat.name);
+  
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Page Header */}
@@ -113,14 +124,17 @@ const ProductListingPage: React.FC = () => {
         {/* Sidebar Filters - Desktop */}
         <div className="hidden lg:block lg:col-span-3">
           <ProductFilters
-            categories={categories}
-            priceRange={priceRange}
-            setPriceRange={setPriceRange}
+            categories={categoryNames}
+            brands={availableBrands}
+            minPrice={0}
+            maxPrice={2000}
             selectedCategory={categoryParam}
             selectedBrands={selectedBrands}
             setSelectedBrands={setSelectedBrands}
             selectedRating={selectedRating}
             setSelectedRating={setSelectedRating}
+            priceRange={priceRange}
+            setPriceRange={setPriceRange}
           />
         </div>
 
@@ -129,28 +143,18 @@ const ProductListingPage: React.FC = () => {
           <div className="flex items-center justify-between mb-6">
             {/* Mobile Filters */}
             <MobileFilters
-              categories={categories}
-              priceRange={priceRange}
-              setPriceRange={setPriceRange}
-              selectedCategory={categoryParam}
-              selectedBrands={selectedBrands}
-              setSelectedBrands={setSelectedBrands}
-              selectedRating={selectedRating}
-              setSelectedRating={setSelectedRating}
+              categories={categoryNames}
+              brands={availableBrands}
+              minPrice={0}
+              maxPrice={2000}
+              filtersApplied={(selectedBrands.length > 0 ? 1 : 0) + 
+                (selectedRating !== null ? 1 : 0) + 
+                (priceRange.min > 0 || priceRange.max < 2000 ? 1 : 0)}
             />
 
             {/* Sort Options */}
             <div className="ml-auto">
-              <SortOptions 
-                sortBy={sortBy} 
-                order={order}
-                onSortChange={(newSortBy, newOrder) => {
-                  searchParams.set("sortBy", newSortBy);
-                  searchParams.set("order", newOrder);
-                  searchParams.set("page", "1");
-                  setSearchParams(searchParams);
-                }}
-              />
+              <SortOptions />
             </div>
           </div>
 
@@ -169,7 +173,7 @@ const ProductListingPage: React.FC = () => {
             </div>
           ) : products.length > 0 ? (
             <>
-              <ProductGrid products={products} />
+              <ProductGrid products={products} isLoading={isLoading} />
               
               {/* Pagination */}
               <div className="mt-12 flex justify-center">

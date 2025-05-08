@@ -12,15 +12,15 @@ import { useSearchParams } from "react-router-dom";
 
 const SortOptions: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentSort = searchParams.get("sort") || "";
+  const currentSort = searchParams.get("sortBy") || "";
   const currentOrder = searchParams.get("order") || "asc";
 
   const handleSortChange = (sort: string, order: "asc" | "desc") => {
     if (sort) {
-      searchParams.set("sort", sort);
+      searchParams.set("sortBy", sort);
       searchParams.set("order", order);
     } else {
-      searchParams.delete("sort");
+      searchParams.delete("sortBy");
       searchParams.delete("order");
     }
     searchParams.delete("page");
