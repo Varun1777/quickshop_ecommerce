@@ -1,12 +1,9 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, ArrowRight } from "lucide-react";
-
 const HeroBanner: React.FC = () => {
-  return (
-    <div className="relative overflow-hidden bg-gradient-to-r from-blue-700 to-blue-600 text-white">
+  return <div className="relative overflow-hidden bg-gradient-to-r from-blue-700 to-blue-600 text-white">
       {/* Animated background elements */}
       <div className="hidden lg:block absolute -right-40 -top-40 w-96 h-96 rounded-full bg-white opacity-10"></div>
       <div className="hidden lg:block absolute -right-20 -bottom-20 w-72 h-72 rounded-full bg-white opacity-10"></div>
@@ -40,19 +37,10 @@ const HeroBanner: React.FC = () => {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <Button 
-                size="lg"
-                className="bg-yellow-500 text-black hover:bg-yellow-400 font-bold flex items-center gap-2"
-                asChild
-              >
+              <Button size="lg" className="bg-yellow-500 text-black hover:bg-yellow-400 font-bold flex items-center gap-2" asChild>
                 <Link to="/products"><ShoppingCart className="h-5 w-5" /> Shop Now</Link>
               </Button>
-              <Button 
-                size="lg"
-                variant="outline" 
-                className="border-white text-white hover:bg-white/10 flex items-center gap-2"
-                asChild
-              >
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 flex items-center gap-2" asChild>
                 <Link to="/products">View Categories <ArrowRight className="h-4 w-4" /></Link>
               </Button>
             </div>
@@ -62,11 +50,7 @@ const HeroBanner: React.FC = () => {
             <div className="relative">
               {/* Main product image */}
               <div className="bg-white/20 backdrop-filter backdrop-blur-sm rounded-full p-4 md:p-8">
-                <img 
-                  src="https://dummyjson.com/image/i/products/1/1.jpg" 
-                  alt="Featured Product" 
-                  className="w-64 h-64 md:w-80 md:h-80 object-contain rounded-full"
-                />
+                <img alt="Featured Product" src="/lovable-uploads/f67420e0-418d-49b8-af76-cd3b59d85a00.jpg" className="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover" />
               </div>
               
               {/* Product badges */}
@@ -91,8 +75,6 @@ const HeroBanner: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default HeroBanner;
