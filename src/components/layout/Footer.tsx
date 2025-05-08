@@ -104,7 +104,7 @@ const Footer: React.FC = () => {
         <div className="border-t border-gray-200 mt-12 pt-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-500 text-sm">
-              © 2023 QuickShop. All rights reserved.
+              © 2025 QuickShop. All rights reserved.
             </p>
             <div className="mt-4 md:mt-0 flex space-x-4">
               <a href="#" className="text-gray-500 text-sm hover:text-brand-600 transition-colors">

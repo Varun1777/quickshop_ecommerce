@@ -40,9 +40,17 @@ const HeroBanner: React.FC = () => {
               <Button size="lg" className="bg-yellow-500 text-black hover:bg-yellow-400 font-bold flex items-center gap-2" asChild>
                 <Link to="/products"><ShoppingCart className="h-5 w-5" /> Shop Now</Link>
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 flex items-center gap-2" asChild>
-                <Link to="/products">View Categories <ArrowRight className="h-4 w-4" /></Link>
-              </Button>
+              <Button
+  size="lg"
+  variant="outline"
+  className="bg-white text-black hover:bg-gray-100 border border-gray-300 flex items-center gap-2"
+  asChild
+>
+  <Link to="/products">
+    View Categories <ArrowRight className="h-4 w-4" />
+  </Link>
+</Button>
+
             </div>
           </div>
           
@@ -50,7 +58,7 @@ const HeroBanner: React.FC = () => {
             <div className="relative">
               {/* Main product image */}
               <div className="bg-white/20 backdrop-filter backdrop-blur-sm p-4 md:p-8 rounded-full mx-[29px] my-[7px] py-[12px] px-[10px]">
-                <img alt="Featured Product" src="/lovable-uploads/f67420e0-418d-49b8-af76-cd3b59d85a00.jpg" className="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover" />
+                <img alt="Featured Product" src="/shoepic/f67420e0-418d-49b8-af76-cd3b59d85a00.jpg" className="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover" />
               </div>
               
               {/* Product badges */}

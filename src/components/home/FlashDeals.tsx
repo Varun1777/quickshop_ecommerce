@@ -69,40 +69,42 @@ const FlashDealItem: React.FC<FlashDealProps> = ({ product, endTime }) => {
       </div>
       
       <CardContent className="p-4">
-        <Link to={`/products/${product.id}`} className="block">
-          <h3 className="font-medium text-base mb-1 line-clamp-1 hover:text-brand-600 transition-colors">
-            {product.title}
-          </h3>
-        </Link>
-        
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center">
-            <span className="font-bold text-gray-900">${discountPrice.toFixed(2)}</span>
-            <span className="ml-2 text-sm text-gray-500 line-through">
-              ${product.price.toFixed(2)}
-            </span>
-          </div>
-          <span className="bg-red-100 text-red-600 text-xs font-semibold px-2 py-1 rounded-full">
-            -{Math.round(product.discountPercentage)}%
-          </span>
-        </div>
-        
-        <div className="flex items-center mb-3 text-sm text-gray-500">
-          <Clock className="h-4 w-4 mr-1" />
-          <span className="font-semibold">
-            {formatTime(timeLeft.hours)}:{formatTime(timeLeft.minutes)}:{formatTime(timeLeft.seconds)}
-          </span>
-        </div>
-        
-        <Button 
-          className="w-full bg-brand-600 hover:bg-brand-700"
-          onClick={() => addToCart(product)}
-          disabled={product.stock === 0}
-        >
-          <ShoppingBag className="h-4 w-4 mr-1" />
-          Add to Cart
-        </Button>
-      </CardContent>
+  <Link to={`/products/${product.id}`} className="block">
+    <h3 className="font-medium text-base mb-1 line-clamp-1 hover:text-brand-600 transition-colors">
+      {product.title}
+    </h3>
+  </Link>
+
+  <div className="flex items-center justify-between mb-2 flex-wrap">
+    <div className="flex items-center space-x-2">
+      <span className="font-bold text-gray-900 text-sm sm:text-base">${discountPrice.toFixed(2)}</span>
+      <span className="text-xs sm:text-sm text-gray-500 line-through">
+        ${product.price.toFixed(2)}
+      </span>
+    </div>
+    <span className="bg-red-100 text-red-600 text-xs sm:text-sm font-semibold px-2 py-1 rounded-full mt-1 sm:mt-0">
+      -{Math.round(product.discountPercentage)}%
+    </span>
+  </div>
+
+  <div className="flex items-center mb-3 text-sm text-gray-500">
+    <Clock className="h-4 w-4 mr-1" />
+    <span className="font-semibold">
+      {formatTime(timeLeft.hours)}:{formatTime(timeLeft.minutes)}:{formatTime(timeLeft.seconds)}
+    </span>
+  </div>
+
+  <Button 
+  className="w-full bg-brand-600 hover:bg-brand-700 text-white text-sm sm:text-base py-2 sm:py-2.5 flex items-center justify-center gap-2"
+  onClick={() => addToCart(product)}
+  disabled={product.stock === 0}
+>
+  <ShoppingBag className="h-5 w-5" />
+  Add to Cart
+</Button>
+
+</CardContent>
+
     </Card>
   );
 };

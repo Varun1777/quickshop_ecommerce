@@ -36,12 +36,8 @@ export interface CartItem {
   quantity: number;
 }
 
-// Helper to handle API errors
-const handleApiError = (error: unknown): never => {
-  console.error("API Error:", error);
-  toast.error("Failed to fetch data. Please try again.");
-  throw error;
-};
+
+
 
 // Fetch all products with pagination and filtering
 export const getProducts = async (
