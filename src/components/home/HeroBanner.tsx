@@ -63,14 +63,7 @@ const HeroBanner: React.FC = () => {
               </div>
               
               {/* Timer */}
-              <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-white text-gray-900 font-bold px-4 py-2 rounded-md shadow-lg flex items-center space-x-1 mx-0 my-0">
-                <span className="text-sm">Ends in:</span>
-                <div className="bg-gray-200 px-2 py-1 rounded">23</div>
-                <span>:</span>
-                <div className="bg-gray-200 px-2 py-1 rounded">59</div>
-                <span>:</span>
-                <div className="bg-gray-200 px-2 py-1 rounded">59</div>
-              </div>
+              
             </div>
           </div>
         </div>
