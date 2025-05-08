@@ -97,9 +97,7 @@ const Footer: React.FC = () => {
                 <span className="font-bold text-blue-500">PayPal</span>
               </div>
             </div>
-            <p className="text-gray-600 mt-4">
-              <span className="font-medium">100% Secure Payment</span> with SSL encryption
-            </p>
+            
           </div>
         </div>
 
