@@ -18,9 +18,9 @@ export interface Product {
 }
 
 export interface Category {
-  id: number;
+  slug: string;
   name: string;
-  image: string;
+  url: string;
 }
 
 export interface ProductsResponse {
@@ -112,13 +112,21 @@ export const getProduct = async (id: number): Promise<Product> => {
 };
 
 // Fetch all categories
-export const getCategories = async (): Promise<string[]> => {
+export const getCategories = async (): Promise<Category[]> => {
   try {
     const response = await fetch(`${BASE_URL}/products/categories`);
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    return await response.json() as string[];
+    
+    const categoriesData = await response.json() as string[];
+    
+    // Transform the string array into Category objects
+    return categoriesData.map(category => ({
+      slug: category,
+      name: category.replace(/-/g, ' '),
+      url: `${BASE_URL}/products/category/${category}`
+    }));
   } catch (error) {
     return handleApiError(error);
   }
