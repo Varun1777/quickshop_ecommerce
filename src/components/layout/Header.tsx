@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import { Search, ShoppingBag, Menu, X, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Category } from "../../services/api";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 interface HeaderProps {
-  categories: string[];
+  categories: Category[];
 }
 
 const Header: React.FC<HeaderProps> = ({ categories }) => {
@@ -62,12 +63,12 @@ const Header: React.FC<HeaderProps> = ({ categories }) => {
                 <DropdownMenuLabel>Browse Categories</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {categories.slice(0, 8).map((category) => (
-                  <DropdownMenuItem key={category} asChild>
+                  <DropdownMenuItem key={category.slug} asChild>
                     <Link 
-                      to={`/products?category=${category}`}
+                      to={`/products?category=${category.slug}`}
                       className="w-full capitalize"
                     >
-                      {category.replace('-', ' ')}
+                      {category.name}
                     </Link>
                   </DropdownMenuItem>
                 ))}
@@ -165,12 +166,12 @@ const Header: React.FC<HeaderProps> = ({ categories }) => {
               <div className="grid grid-cols-2 gap-2">
                 {categories.slice(0, 6).map((category) => (
                   <Link
-                    key={category}
-                    to={`/products?category=${category}`}
+                    key={category.slug}
+                    to={`/products?category=${category.slug}`}
                     className="text-sm text-gray-600 hover:text-brand-600 transition-colors capitalize"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    {category.replace('-', ' ')}
+                    {category.name}
                   </Link>
                 ))}
                 <Link

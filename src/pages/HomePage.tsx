@@ -4,24 +4,28 @@ import HeroBanner from "../components/home/HeroBanner";
 import CategorySection from "../components/home/CategorySection";
 import FeaturedProductsCarousel from "../components/home/FeaturedProductsCarousel";
 import FlashDeals from "../components/home/FlashDeals";
-import { getProducts, getCategories, Product } from "../services/api";
+import { getProducts, getCategories, Product, Category } from "../services/api";
 import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
 
 const HomePage: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [newArrivals, setNewArrivals] = useState<Product[]>([]);
   const [flashDeals, setFlashDeals] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  
+  // Use React Query to fetch categories
+  const { data: categories = [] } = useQuery({
+    queryKey: ['categories'],
+    queryFn: getCategories,
+    staleTime: 1000 * 60 * 60, // Cache categories for 1 hour
+    refetchOnWindowFocus: false,
+  });
 
   useEffect(() => {
     const fetchHomeData = async () => {
       try {
         setIsLoading(true);
-        
-        // Fetch categories
-        const categoriesData = await getCategories();
-        setCategories(categoriesData);
         
         // Fetch products with high ratings for featured section
         const featuredData = await getProducts({ limit: 15 });
