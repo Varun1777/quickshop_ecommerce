@@ -58,7 +58,7 @@ const HeroBanner: React.FC = () => {
                 70% OFF
               </div>
               
-              <div className="absolute -bottom-2 -left-2 md:bottom-0 md:left-0 bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-full animate-pulse shadow-lg">
+              <div className="absolute -bottom-2 -left-2 md:bottom-0 md:left-0 bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-full animate-pulse shadow-lg my-[240px] mx-0">
                 Best Seller!
               </div>
               
