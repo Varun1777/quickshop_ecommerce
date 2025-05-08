@@ -49,7 +49,7 @@ const HeroBanner: React.FC = () => {
           <div className="flex justify-center md:justify-end relative">
             <div className="relative">
               {/* Main product image */}
-              <div className="bg-white/20 backdrop-filter backdrop-blur-sm rounded-full p-4 md:p-8">
+              <div className="bg-white/20 backdrop-filter backdrop-blur-sm p-4 md:p-8 rounded-full mx-[29px] my-[7px] py-[12px] px-[10px]">
                 <img alt="Featured Product" src="/lovable-uploads/f67420e0-418d-49b8-af76-cd3b59d85a00.jpg" className="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover" />
               </div>
               
