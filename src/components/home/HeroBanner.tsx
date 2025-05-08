@@ -54,7 +54,7 @@ const HeroBanner: React.FC = () => {
               </div>
               
               {/* Product badges */}
-              <div className="absolute -top-4 -right-4 bg-red-500 text-white font-bold rounded-full transform rotate-12 shadow-lg mx-[52px] my-[35px] px-[8px] py-[7px]">
+              <div className="absolute -top-4 -right-4 bg-red-500 text-white font-bold rounded-full transform rotate-12 shadow-lg px-[8px] py-[7px] mx-[95px] my-[72px]">
                 70% OFF
               </div>
               
